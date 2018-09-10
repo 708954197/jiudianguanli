@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>管理员面板</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+    <style>
+        .te div{
+            border-right: 1px solid #ccc;
+            line-height: 41px;
+        }
+        .te div:last-child{
+            border-right: none;
+        }
+        .main{
+            background: rgb(59,42,32);
+            position: absolute;
+            height: 100%;
+        }
+        .sidebar{
+            background: rgb(141,91,45);
+        }
+        .sidebar a{
+            color: rgb(240,235,92);
+        }
+        .sidebar li:hover a{
+            color: black;
+        }
+        .se{
+            background: rgb(88,56,25);
+        }
+        .addType span{
+            color: rgb(239,129,41);
+        }
+        .addType option{
+            color: black;
+        }
+        #demo-list a{
+            overflow:hidden;
+            text-overflow:ellipsis;
+            -o-text-overflow:ellipsis;
+            white-space:nowrap;
+            width:100%;
+        }
+        .addType{
+            width: 65%;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+        .addType div{
+            height: 45px;
+        }
+        .addType div span{
+            float: left;
+            width: 50%;
+            padding:5px 20px;
+
+        }
+        .addType div span b{
+            display: inline-block;
+            width: 80px;
+            text-align: right;
+        }
+        .addType p{
+            text-align: center;
+        }
+        .addType  button{
+            background: #eea236;
+            border: none;
+            text-align: center;
+            padding:  10px;
+        }
+        .addType .last{
+            margin-left: 100px;
+        }
+        select{
+            color: black;
+        }
+        input{
+            color: black;
+        }
+        .ablo tr{
+            color: ;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top se" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">酒店管理 V2.0</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li id="tuichu"><a href="#">退出登录</a></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li><a href="/check">大堂入住</a></li>
+                <li><a href="/reservations">订单入住</a></li>
+                <li><a href="/checkout">退房管理</a></li>
+                <li class="active"><a href="/record">入住记录查询</a></li>
+                <li><a href="/query">查询房间信息</a></li>
+                <li><a href="/build">新建房间</a></li>
+                <li><a href="/roomIndex">房间类别管理</a></li>
+                <li><a href="/change">修改密码</a></li>
+            </ul>
+        </div>
+
+        <div class="col-sm-10 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <!-- Modal -->
+            <!--表格-->
+            <div class="content-wrapper">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="container mb50">
+                                <h2 style="text-align: center; color: rgb(239,129,41)">客户信息登记--大堂</h2>
+                            </div>
+                            <div class="panel-body" style="background: #cccccc">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                        <tr class="ablo">
+                                            <th>姓名</th>
+                                            <th>证件类型</th>
+                                            <th>证件号</th>
+                                            <th>性别</th>
+                                            <th>房间类型</th>
+                                            <th>房间号码</th>
+                                            <th>价格</th>
+                                            <th>入住人姓名</th>
+                                            <th>入住时间</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="tbody">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="pagenavbox"></div>
+                            </div>
+                            <!--添加-->
+                            <div class="addType">
+                                <p>顾客信息</p>
+                                <div>
+                        <span class="col-md-2"><b>证件类型：</b>
+                            <select id="usertype" name="usertype">
+                                <option value="身份证">身份证</option>
+                                <option value="护照">护照</option>
+                                <option value="驾驶证">驾驶证</option>
+                                <option value="士兵证">士兵证</option>
+                            </select>
+                        </span>
+                                    <span class="col-md-2"><b>证件号：</b><input type="text" id="zhengjianhao" name="zhengjianhao" ></span>
+                                </div>
+                                <div class="container">
+                                    <button style="margin-left: 23%" id="que">确定</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/PageNav.js"></script>
+<script type="text/javascript">
+    $.get("/kehuxinxiALL/all?page=1",function(data){
+        //分页条
+        new PageNav({
+            boxid : "pagenavbox",
+            page : 1,
+            pageAmount : data.pageAmount,
+            change : function(pagenumber){
+                gotopage(pagenumber);
+            }
+        });
+
+        gotopage(1);
+    });
+    function gotopage(pagenumber){
+        //清空
+        $("#tbody").empty();
+        //获得新的数据
+        $.get("/kehuxinxiALL/all?page=" + pagenumber,function(data){
+            console.log(data);
+            $.each(data.results,function(i, n){
+                //创建一个tr标签
+                $tr = $("<tr></tr>");
+                $("<td></td>").html(n.zhengjianhao).appendTo($tr);
+                $("<td></td>").html(n.zhengjian).appendTo($tr);
+                $("<td></td>").html(n.xingming).appendTo($tr);
+                $("<td></td>").html(n.xingbie).appendTo($tr);
+                $("<td></td>").html(n.leixing).appendTo($tr);
+                $("<td></td>").html(n.roomnum).appendTo($tr);
+                $("<td></td>").html(n.price).appendTo($tr);
+                $("<td></td>").html(n.names).appendTo($tr);
+                $("<td></td>").html(n.shijian).appendTo($tr);
+                $tr.appendTo($("#tbody"));
+            });
+        });
+    }
+
+    $("#roomtype").blur(function () {
+        var leixing = $("#roomtype").val();
+        $.post("/chahao/"+leixing,function (data) {
+            console.log(data)
+            $.each(data.results,function(i, n){
+                $("<option value='"+n.fangjianhao+"'></option>").html(n.fangjianhao).appendTo($('#roomnum'));
+            })
+        })
+    })
+    $("#que").click(function () {
+        $.post("/ruzhuxinxichaxun",{
+            "type":$("#usertype").val(),
+            "zhengjianhao":$("#zhengjianhao").val()
+        },function (data) {
+            $("#tbody").empty();
+            $.each(data.result,function(i, n){
+                //创建一个tr标签
+                $tr = $("<tr></tr>");
+                $("<td></td>").html(n.zhengjianhao).appendTo($tr);
+                $("<td></td>").html(n.zhengjian).appendTo($tr);
+                $("<td></td>").html(n.xingming).appendTo($tr);
+                $("<td></td>").html(n.xingbie).appendTo($tr);
+                $("<td></td>").html(n.leixing).appendTo($tr);
+                $("<td></td>").html(n.roomnum).appendTo($tr);
+                $("<td></td>").html(n.price).appendTo($tr);
+                $("<td></td>").html(n.names).appendTo($tr);
+                $("<td></td>").html(n.shijian).appendTo($tr);
+                $tr.appendTo($("#tbody"));
+            });
+        })
+    })
+    $("#tuichu").click(function () {
+        $.get("/tui" ,function (data) {
+            console.log(data.resul);
+            if (data.resul == 1){
+                alert("退出成功");
+                window.location.href = "/"
+            } else{
+                alert("退出失败")
+            }
+        })
+    })
+</script>
+</body>
+</html>

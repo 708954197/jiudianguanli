@@ -1,0 +1,308 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>管理员面板</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+    <style>
+        .te div{
+            border-right: 1px solid #ccc;
+            line-height: 41px;
+        }
+        .te div:last-child{
+            border-right: none;
+        }
+        .main{
+            background: rgb(59,42,32);
+            position: absolute;
+            height: 100%;
+        }
+        .sidebar{
+            background: rgb(141,91,45);
+        }
+        .sidebar a{
+            color: rgb(240,235,92);
+        }
+        .sidebar li:hover a{
+            color: black;
+        }
+        .se{
+            background: rgb(88,56,25);
+        }
+        .addType span{
+            color: rgb(239,129,41);
+        }
+        .addType option{
+            color: black;
+        }
+        #demo-list a{
+            overflow:hidden;
+            text-overflow:ellipsis;
+            -o-text-overflow:ellipsis;
+            white-space:nowrap;
+            width:100%;
+        }
+        .addType{
+            width: 65%;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+        .addType div{
+            height: 45px;
+        }
+        .addType div span{
+            float: left;
+            width: 50%;
+            padding:5px 20px;
+
+        }
+        .addType div span b{
+            display: inline-block;
+            width: 80px;
+            text-align: right;
+        }
+        .addType p{
+            text-align: center;
+        }
+        .addType  button{
+            background: #eea236;
+            border: none;
+            text-align: center;
+            padding:  10px;
+        }
+        .addType .last{
+            margin-left: 100px;
+        }
+        select{
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top se" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">酒店管理 V2.0</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li id="tuichu"><a href="#">退出登录</a></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li class="active"><a href="/yuding">预定房间</a></li>
+                <li><a href="/xinxi">预定管理</a></li>
+            </ul>
+        </div>
+
+        <div class="col-sm-10 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <!-- Modal -->
+            <!--表格-->
+            <div class="content-wrapper">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="container mb50">
+                                <h2 style="text-align: center; color: rgb(239,129,41)">房间类别信息</h2>
+                            </div>
+                            <!--   Basic Table  -->
+                            <div class="panel panel-default" style="background: rgb(238,232,172)">
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th>房间类型</th>
+                                                <th>类别名称</th>
+                                                <th>面积</th>
+                                                <th>床位数</th>
+                                                <th>早餐</th>
+                                                <th>网络</th>
+                                                <th>电视</th>
+                                                <th>价格</th>
+                                                <th>房间数量</th>
+                                                <th>剩余数量</th>
+                                                <th>操作项</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="tbody"></tbody>
+                                        </table>
+                                    </div>
+                                    <div id="pagenavbox"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--修改模态框-->
+            <div class="modal fade" id="myModalChange" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                                        class="sr-only">Close</span></button>
+                            <h4 class="modal-title">添写个人信息</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p id="dingdan">
+                            </p>
+                            <p>
+                                证件类型：
+                                <select name="zhengjianleixing" class="form-control zhengjianleixing">
+                                    <option value="身份证">身份证</option>
+                                    <option value="暂住证">暂住证</option>
+                                </select>
+                            </p>
+                            <p>
+                                证件号：
+                                <input class="form-control zhengjianhao" type="text"  name="zhengjianhao"/>
+                            </p>
+                            <p>
+                                姓名：
+                                <input class="form-control xingming" type="text"  name="xingming"/>
+                            </p>
+                            <p>性别：
+                                <select name="sex" class="form-control sex">
+                                    <option value="男">男</option>
+                                    <option value="女">女</option>
+                                </select>
+                            </p>
+                            <p>
+                                入住日期：
+                                <input class="form-control startdate" type="date"  name="startdate"/>
+                            </p>
+                            <p>
+                                离开日期：
+                                <input class="form-control enddate" type="date"  name="enddate"/>
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" id="xiugaiBtn">提交</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--弹出的修改课程对话框end-->
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/PageNav.js"></script>
+<script type="text/javascript">
+    //请求一次，创建分页条
+    $.get("/room?page=1",function(data){
+        $("#xiu").hide();
+        //分页条
+        new PageNav({
+            boxid : "pagenavbox",
+            page : 1,
+            pageAmount : data.pageAmount,
+            change : function(pagenumber){
+                gotopage(pagenumber);
+            }
+        });
+        gotopage(1);
+    });
+    // 排序
+    var compare = function (prop) {
+        return function (obj1, obj2) {
+            var val1 = obj1[prop];
+            var val2 = obj2[prop];
+            if (!isNaN(Number(val1)) && !isNaN(Number(val2))) {
+                val1 = Number(val1);
+                val2 = Number(val2);
+            }
+            if (val1 < val2) {
+                return -1;
+            } else if (val1 > val2) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+    }
+    //Ajax请求，请求JSON数据
+    function gotopage(pagenumber){
+        //清空
+        $("#tbody").empty();
+        //获得新的数据
+        $.get("/room?page=" + pagenumber,function(data){
+            var paixu =data.results.sort(compare("type"))
+            $.each(paixu ,function(i, n){
+                $tr = $("<tr></tr>");
+                $("<td></td>").html(n.type).appendTo($tr);
+                $("<td></td>").html(n.name).appendTo($tr);
+                $("<td></td>").html(n.area).appendTo($tr);
+                $("<td></td>").html(n.num).appendTo($tr);
+                $("<td></td>").html(n.food).appendTo($tr);
+                $("<td></td>").html(n.newtword).appendTo($tr);
+                $("<td></td>").html(n.tv).appendTo($tr);
+                $("<td></td>").html(n.price).appendTo($tr);
+                $("<td></td>").html(n.numAll).appendTo($tr);
+                $("<td></td>").html(n.surplus).appendTo($tr);
+                $("<td><input type='button' id='btn3' class='btn btn-warning modbtn' value='免费预定' data-sid='" + n.type + "' data-toggle='modal'  data-target='#myModalChange'/></td>").html(n.handle).appendTo($tr);
+                //上树
+                $tr.appendTo($("#tbody"));
+            });
+        });
+    }
+
+
+
+    $("#tbody").delegate("#btn3","click",function(){
+        var sid = $(this).attr("data-sid");
+        $.post("/yuding/"+ sid,function (data) {
+            console.log(data)
+            console.log(data.result[0].type);
+            $("#xiugaiBtn").click(function () {
+                $("#myModalChange").modal("hide");
+                $.post("/yonghuxinxieru",{
+                    zhengjianleixing:$(".zhengjianleixing").val(),
+                    zhengjianhao:$(".zhengjianhao").val(),
+                    xingming:$(".xingming").val(),
+                    sex:$(".sex").val(),
+                    startdate:$(".startdate").val(),
+                    enddate:$(".enddate").val(),
+                    type:data.result[0].type,
+                },function (data) {
+                    console.log(data);
+                })
+            })
+        })
+    })
+    $("#tuichu").click(function () {
+        $.get("/tui" ,function (data) {
+            console.log(data.resul);
+            if (data.resul == 1){
+                alert("退出成功");
+                window.location.href = "/"
+            } else{
+                alert("退出失败")
+            }
+        })
+    })
+</script>
+</body>
+</html>

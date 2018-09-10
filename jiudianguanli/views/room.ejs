@@ -1,0 +1,397 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>管理员面板</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+    <style>
+        .te div{
+            border-right: 1px solid #ccc;
+            line-height: 41px;
+        }
+        .te div:last-child{
+            border-right: none;
+        }
+        .main{
+            background: rgb(59,42,32);
+            position: absolute;
+            height: 100%;
+        }
+        .sidebar{
+            background: rgb(141,91,45);
+        }
+        .sidebar a{
+            color: rgb(240,235,92);
+        }
+        .sidebar li:hover a{
+            color: black;
+        }
+        .se{
+            background: rgb(88,56,25);
+        }
+        .addType span{
+            color: rgb(239,129,41);
+        }
+        .addType option{
+            color: black;
+        }
+        #demo-list a{
+            overflow:hidden;
+            text-overflow:ellipsis;
+            -o-text-overflow:ellipsis;
+            white-space:nowrap;
+            width:100%;
+        }
+        .addType{
+            width: 65%;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+        .addType div{
+            height: 45px;
+        }
+        .addType div span{
+            float: left;
+            width: 50%;
+            padding:5px 20px;
+
+        }
+        .addType div span b{
+            display: inline-block;
+            width: 80px;
+            text-align: right;
+        }
+        .addType p{
+            text-align: center;
+        }
+        .addType  button{
+            background: #eea236;
+            border: none;
+            text-align: center;
+            padding:  10px;
+        }
+        .addType .last{
+            margin-left: 100px;
+        }
+        select{
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top se" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">酒店管理 V2.0</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li id="tuichu"><a href="#">退出登录</a></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li><a href="/check">大堂入住</a></li>
+                <li><a href="/reservations">订单入住</a></li>
+                <li><a href="/checkout">退房管理</a></li>
+                <li><a href="/record">入住记录查询</a></li>
+                <li><a href="/query">查询房间信息</a></li>
+                <li><a href="/build">新建房间</a></li>
+                <li class="active"><a href="/roomIndex">房间类别管理</a></li>
+                <li><a href="/change">修改密码</a></li>
+            </ul>
+        </div>
+
+        <div class="col-sm-10 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <!-- Modal -->
+            <!--表格-->
+            <div class="content-wrapper">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="container mb50">
+                                <h2 style="text-align: center; color: rgb(239,129,41)">房间类别信息</h2>
+                            </div>
+                            <!--   Basic Table  -->
+                            <div class="panel panel-default" style="background: rgb(238,232,172)">
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th>房间类型</th>
+                                                <th>类别名称</th>
+                                                <th>面积</th>
+                                                <th>床位数</th>
+                                                <th>早餐</th>
+                                                <th>网络</th>
+                                                <th>电视</th>
+                                                <th>价格</th>
+                                                <th>房间数量</th>
+                                                <th>剩余数量</th>
+                                                <th>操作项</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="tbody"></tbody>
+                                        </table>
+                                    </div>
+                                    <div id="pagenavbox"></div>
+                                </div>
+                            </div>
+                            <!--添加-->
+                            <div class="addType">
+                                <p style="text-align: center"><button id="gai" style="background: rgb(255,127,0); border: none;
+line-height: 30px;    width: 145px;">添加房间类别</button></p>
+                                <div>
+                                    <span class="col-md-2"><b>房间类别：</b><input type="text" id="type" name="type"></span>
+                                    <span class="col-md-2"><b>房间名称：</b><input type="text" id="name" name="name" ></span>
+                                </div>
+                                <div>
+                                    <span class="col-md-2"><b>面积：</b><input type="number" id="area"  name="area">平方米</span>
+                                    <span class="col-md-2"><b>床位数：</b><input type="number" id="num" name="num"></span>
+                                </div>
+                                <div>
+                        <span class="col-md-2"><b>早餐：</b>
+                            <select id="food" name="food">
+                                <option value="是">是</option>
+                                <option value="否">否</option>
+                            </select>
+                        </span>
+                                    <span class="col-md-2"><b>网络：</b>
+                            <select id="newtword" name="newtword">
+                                <option value="是">是</option>
+                                <option value="否">否</option>
+                            </select>
+                        </span>
+                                </div>
+                                <div>
+                        <span class="col-md-2"><b>电视：</b>
+                            <select id="tv" name="tv">
+                                <option value="是">是</option>
+                                <option value="否">否</option>
+                            </select>
+                        </span>
+                                    <span class="col-md-2"><b>价格：</b><input type="number" id="price" name="price"></span>
+                                </div>
+                                <div>
+                                    <span class="col-md-2"><b>房间数量：</b><input type="number" id="numAll"  name="numAll"></span>
+                                    <span class="col-md-2"><b>剩余数量：</b><input type="number" id="surplus"  name="surplus"></span>
+                                </div>
+                                <div class="last">
+                                    <button id="xiu">保存</button>
+                                    <button id="add">添加</button>
+                                    <button type="reset">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/PageNav.js"></script>
+<script type="text/javascript">
+    //请求一次，创建分页条
+    $.get("/room?page=1",function(data){
+        $("#xiu").hide();
+        //分页条
+        new PageNav({
+            boxid : "pagenavbox",
+            page : 1,
+            pageAmount : data.pageAmount,
+            change : function(pagenumber){
+                gotopage(pagenumber);
+            }
+        });
+        gotopage(1);
+    });
+    // 排序
+    var compare = function (prop) {
+        return function (obj1, obj2) {
+            var val1 = obj1[prop];
+            var val2 = obj2[prop];
+            if (!isNaN(Number(val1)) && !isNaN(Number(val2))) {
+                val1 = Number(val1);
+                val2 = Number(val2);
+            }
+            if (val1 < val2) {
+                return -1;
+            } else if (val1 > val2) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+    }
+    //Ajax请求，请求JSON数据
+    function gotopage(pagenumber){
+        //清空
+        $("#tbody").empty();
+        //获得新的数据
+        $.get("/room?page=" + pagenumber,function(data){
+            var paixu =data.results.sort(compare("type"))
+            $.each(paixu ,function(i, n){
+                $tr = $("<tr></tr>");
+                $("<td></td>").html(n.type).appendTo($tr);
+                $("<td></td>").html(n.name).appendTo($tr);
+                $("<td></td>").html(n.area).appendTo($tr);
+                $("<td></td>").html(n.num).appendTo($tr);
+                $("<td></td>").html(n.food).appendTo($tr);
+                $("<td></td>").html(n.newtword).appendTo($tr);
+                $("<td></td>").html(n.tv).appendTo($tr);
+                $("<td></td>").html(n.price).appendTo($tr);
+                $("<td></td>").html(n.numAll).appendTo($tr);
+                $("<td></td>").html(n.surplus).appendTo($tr);
+                $("<td><button id='btn1' data-sid='"+n.type+"'>编辑</button><button id='btn2' data-sid='"+n.type+"'>删除</button><button id='btn3'>选择</button></td>").html(n.handle).appendTo($tr);
+                //上树
+                $tr.appendTo($("#tbody"));
+            });
+        });
+    }
+    //添加
+    $("#add").click(function(){
+        $.post("/room/add",{
+            type:parseInt($("input[name=type]").val()),
+            name : $("input[name=name]").val(),
+            area : $("input[name=area]").val(),
+            num : $("input[name=num]").val(),
+            food:$("select[name=food]").val(),
+            newtword:$("select[name=newtword]").val(),
+            tv:$("select[name=tv]").val(),
+            price:$("input[name=price]").val(),
+            numAll:$("input[name=numAll]").val(),
+            surplus:$("input[name=surplus]").val()
+        },function(data){
+            console.log(data)
+            if(data.result == 1){
+                alert("提交成功！");
+                window.location.href = '/roomIndex'
+                $("input[type=text]").val("");
+            }else if(data.result == -1){
+                alert("提交失败，号被占用！");
+            }else if(data.result == -2){
+                alert("服务器错误！请联系管理员，怎么联系我也不知道！");
+            }
+        })
+    });
+    // 编辑
+    $("#btn1").click(function () {
+        $.get("/room/ensure" ,function (data) {
+            console.log(data);
+            $("input[name=type2]").val(data.info.type);
+            $("input[name=name2]").val(data.info.name);
+            $("input[name=area2]").val(data.info.area);
+            $("input[name=num2]").val(data.info.num)
+            $("select[name=food2]").val(data.info.food);
+            $("select[name=newtword2]").val(data.info.newtword);
+            $("select[name=tv2]").val(data.info.tv);
+            $("input[name=price2]").val(data.info.price);
+            $("input[name=numAll2]").val(data.info.numAll);
+            $("input[name=surplus2]").val(data.info.surplus);
+        })
+    })
+
+
+    //删除
+    $("#tbody").delegate("#btn2","click",function(){
+        if(!confirm("真的要删除么")){
+            return;
+        }
+        var sid = $(this).attr("data-sid");
+        var $this = $(this);
+        $.ajax({
+            url : "/room/" + sid,
+            type : "delete",
+            success : function(data){
+                if(data.result == 1){
+                    alert("删除成功");
+                    $this.parents("tr").remove();
+                }else{
+                    alert("服务器错误！");
+                }
+            }
+        });
+    })
+    //修改
+    $("#tbody").delegate("#btn1","click",function(){
+        var sid = $(this).attr("data-sid");
+        console.log(sid)
+        $("#gai").html("修改房间")
+        $("#xiu").show();
+        $("#add").hide();
+        $.ajax({
+            url : "/room/" + sid,
+            type : "post",
+            success : function(data){
+                console.log(data)
+                $("#type").val(data.info.type);
+                $("#name").val(data.info.name);
+                $("#area").val(data.info.area);
+                $("#num").val(data.info.num);
+                $("#food").val(data.info.food);
+                $("#newtword").val(data.info.newtword);
+                $("#tv").val(data.info.tv);
+                $("#price").val(data.info.price);
+                $("#numAll").val(data.info.numAll);
+                $("#surplus").val(data.info.surplus);
+            }
+        });
+    });
+    $("#xiu").click(function () {
+        var sid = $("#type").val();
+        console.log(sid);
+        $.post("/student/" + sid ,{
+            type:parseInt($("input[name=type]").val()),
+            name : $("input[name=name]").val(),
+            area : $("input[name=area]").val(),
+            num : $("input[name=num]").val(),
+            food:$("select[name=food]").val(),
+            newtword:$("select[name=newtword]").val(),
+            tv:$("select[name=tv]").val(),
+            price:$("input[name=price]").val(),
+            numAll:$("input[name=numAll]").val(),
+            surplus:$("input[name=surplus]").val()
+        },function (data) {
+            if(data.result == 1){
+                alert("修改成功！");
+                window.location = "/roomIndex";
+            }else{
+
+            }
+        })
+    })
+    $("#tuichu").click(function () {
+        $.get("/tui" ,function (data) {
+            console.log(data.resul);
+            if (data.resul == 1){
+                alert("退出成功");
+                window.location.href = "/"
+            } else{
+                alert("退出失败")
+            }
+        })
+    })
+</script>
+</body>
+</html>

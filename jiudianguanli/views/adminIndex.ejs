@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>管理员面板</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+    <style>
+        .te div{
+            border-right: 1px solid #ccc;
+            line-height: 41px;
+        }
+        .te div:last-child{
+            border-right: none;
+        }
+
+        .zhong{
+            text-align: center;
+        }
+        .main{
+            background: url(images/6.jpg);
+            background-size: cover;
+            position: absolute;
+            height: 100%;
+        }
+        .sidebar{
+            background: rgb(141,91,45);
+        }
+        .sidebar a{
+            color: rgb(240,235,92);
+        }
+        .sidebar li:hover a{
+            color: black;
+        }
+        .se{
+            background: rgb(88,56,25);
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top se" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">酒店管理 V2.0</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li id="tuichu"><a href="#">退出登录</a></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li><a href="/check">大堂入住</a></li>
+                <li><a href="/reservations">订单入住</a></li>
+                <li><a href="/checkout">退房管理</a></li>
+                <li><a href="/record">入住记录查询</a></li>
+                <li><a href="/query">查询房间信息</a></li>
+                <li><a href="/build">新建房间</a></li>
+                <li><a href="/roomIndex">房间类别管理</a></li>
+                <li><a href="/change">修改密码</a></li>
+            </ul>
+        </div>
+
+        <div class="col-sm-10 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <!-- Modal -->
+            <div class="container">
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/bootstrap.js">
+    $("#tuichu").click(function () {
+        $.get("/tui" ,function (data) {
+            console.log(data.resul);
+            if (data.resul == 1){
+                alert("退出成功");
+                window.location.href = "/"
+            } else{
+                alert("退出失败")
+            }
+        })
+    })
+</script>
+</body>
+</html>

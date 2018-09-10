@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>管理员面板</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+    <style>
+        .te div{
+            border-right: 1px solid #ccc;
+            line-height: 41px;
+        }
+        .te div:last-child{
+            border-right: none;
+        }
+        .main{
+            background: rgb(59,42,32);
+            position: absolute;
+            height: 100%;
+        }
+        .sidebar{
+            background: rgb(141,91,45);
+        }
+        .sidebar a{
+            color: rgb(240,235,92);
+        }
+        .sidebar li:hover a{
+            color: black;
+        }
+        .se{
+            background: rgb(88,56,25);
+        }
+        .addType span{
+            color: rgb(239,129,41);
+        }
+        .addType option{
+            color: black;
+        }
+        #demo-list a{
+            overflow:hidden;
+            text-overflow:ellipsis;
+            -o-text-overflow:ellipsis;
+            white-space:nowrap;
+            width:100%;
+        }
+        .addType{
+            width: 65%;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+        .addType div{
+            height: 45px;
+        }
+        .addType div span{
+            float: left;
+            width: 50%;
+            padding:5px 20px;
+
+        }
+        .addType div span b{
+            display: inline-block;
+            width: 80px;
+            text-align: right;
+        }
+        .addType p{
+            text-align: center;
+        }
+        .addType  button{
+            background: #eea236;
+            border: none;
+            text-align: center;
+            padding:  10px;
+        }
+        .addType .last{
+            margin-left: 100px;
+        }
+        select{
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top se" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">酒店管理 V2.0</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li id="tuichu"><a href="#">退出登录</a></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li><a href="/check">大堂入住</a></li>
+                <li><a href="/reservations">订单入住</a></li>
+                <li class="active"><a href="/checkout">退房管理</a></li>
+                <li><a href="/record">入住记录查询</a></li>
+                <li><a href="/query">查询房间信息</a></li>
+                <li><a href="/build">新建房间</a></li>
+                <li><a href="/roomIndex">房间类别管理</a></li>
+                <li><a href="/change">修改密码</a></li>
+            </ul>
+        </div>
+
+        <div class="col-sm-10 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <!-- Modal -->
+            <!--表格-->
+            <div class="content-wrapper">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="container mb50">
+                                <h2 style="text-align: center; color: rgb(239,129,41)">退房管理</h2>
+                            </div>
+                            <!--添加-->
+                            <div style="background:rgba(255,255,255,0.5); padding:20px;">
+                                <table class="table" style="background:rgba(255,255,255,0.5);">
+                                    <thead>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>房间号</th>
+                                        <th>房间类型</th>
+                                        <th>房间位置</th>
+                                        <th>房间描述</th>
+                                        <th>房间状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="tbody"></tbody>
+                                </table>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div id="pagenavbox"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--修改模态框-->
+            <div class="modal fade" id="myModalChange" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                                        class="sr-only">Close</span></button>
+                            <h4 class="modal-title">修改房间</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                房间号：
+                                <input class="form-control fangjianhao" type="text"  name="fangjianhao"/>
+                            </p>
+                            <p>
+                                房间类型：
+                                <select name="leixing" class="form-control leixing">
+                                </select>
+                            </p>
+                            <p>
+                                房间位置：
+                                <input class="form-control weizhi" type="text"  name="weizhi"/>
+                            </p>
+                            <p>
+                                房间描述：
+                                <textarea name="miaoshu"  cols="30" rows="5" class="form-control miaoshu"></textarea>
+                            </p>
+                            <p>房间状态：
+                                <select name="zhuangtai" class="form-control zhuangtai">
+                                    <option value="已入住">已入住</option>
+                                    <option value="未入住">未入住</option>
+                                    <option value="预定">预定</option>
+                                </select>
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" id="xiugaiBtn">提交</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--弹出的修改课程对话框end-->
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/PageNav.js"></script>
+<script>
+    $.get("/allleibie",function (data) {
+        $.each(data.results,function(i, n){
+            $("<option value='"+n.type+"'></option>").html(n.type).appendTo($('.leixing'));
+        })
+    })
+    //请求一次，创建分页条
+    $.get("/fangjianguanlitui/all?page=1",function(data){
+        //分页条
+        new PageNav({
+            boxid : "pagenavbox",
+            page : 1,
+            pageAmount : data.pageAmount,
+            change : function(pagenumber){
+                gotopage(pagenumber);
+            }
+        });
+
+        gotopage(1);
+    });
+    //Ajax请求，请求JSON数据
+    function gotopage(pagenumber){
+        //清空
+        $("#tbody").empty();
+        //获得新的数据
+        $.get("/fangjianguanlitui/all?page=" + pagenumber,function(data){
+            $.each(data.results,function(i, n){
+                //创建一个tr标签
+                $tr = $("<tr></tr>");
+                $("<td></td>").html(i+1).appendTo($tr);
+                $("<td></td>").html(n.fangjianhao).appendTo($tr);
+                $("<td></td>").html(n.leixing).appendTo($tr);
+                $("<td></td>").html(n.weizhi).appendTo($tr);
+                $("<td></td>").html(n.miaoshu).appendTo($tr);
+                $("<td></td>").html(n.zhuangtai).appendTo($tr);
+                $("<td> " + "<input type='button' class='btn btn-warning modbtn' value='退房' data-num='"+n.fangjianhao+"'  data-sid='"+n.leixing+"' id='tui' /></td>").appendTo($tr);
+                //上树
+                $tr.appendTo($("#tbody"));
+            });
+        });
+    }
+    $("#tbody").delegate("#tui","click",function(){
+        var sid = $(this).attr("data-sid");
+        var num = $(this).attr("data-num");
+        console.log(sid,num)
+        $.post("/tuifang",{
+            sid:sid,
+            num:num
+        },function (data) {
+            console.log(data);
+            if (data.result== 1) {
+                window.location.href = "/checkout"
+            }
+        })
+    })
+    $("#tuichu").click(function () {
+        $.get("/tui" ,function (data) {
+            console.log(data.resul);
+            if (data.resul == 1){
+                alert("退出成功");
+                window.location.href = "/"
+            } else{
+                alert("退出失败")
+            }
+        })
+    })
+</script>
+</body>
+</html>

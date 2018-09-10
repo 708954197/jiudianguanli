@@ -1,0 +1,301 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>管理员面板</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+    <style>
+        .te div{
+            border-right: 1px solid #ccc;
+            line-height: 41px;
+        }
+        .te div:last-child{
+            border-right: none;
+        }
+        .main{
+            background: rgb(59,42,32);
+            position: absolute;
+            height: 100%;
+        }
+        .sidebar{
+            background: rgb(141,91,45);
+        }
+        .sidebar a{
+            color: rgb(240,235,92);
+        }
+        .sidebar li:hover a{
+            color: black;
+        }
+        .se{
+            background: rgb(88,56,25);
+        }
+        .addType span{
+            color: rgb(239,129,41);
+        }
+        .addType option{
+            color: black;
+        }
+        #demo-list a{
+            overflow:hidden;
+            text-overflow:ellipsis;
+            -o-text-overflow:ellipsis;
+            white-space:nowrap;
+            width:100%;
+        }
+        .addType{
+            width: 65%;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+        .addType div{
+            height: 45px;
+        }
+        .addType div span{
+            float: left;
+            width: 50%;
+            padding:5px 20px;
+
+        }
+        .addType div span b{
+            display: inline-block;
+            width: 80px;
+            text-align: right;
+        }
+        .addType p{
+            text-align: center;
+        }
+        .addType  button{
+            background: #eea236;
+            border: none;
+            text-align: center;
+            padding:  10px;
+        }
+        .addType .last{
+            margin-left: 100px;
+        }
+        select{
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top se" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">酒店管理 V2.0</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li id="tuichu"><a href="#">退出登录</a></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li><a href="/check">大堂入住</a></li>
+                <li class="active"><a href="/reservations">订单入住</a></li>
+                <li><a href="/checkout">退房管理</a></li>
+                <li><a href="/record">入住记录查询</a></li>
+                <li><a href="/query">查询房间信息</a></li>
+                <li><a href="/build">新建房间</a></li>
+                <li><a href="/roomIndex">房间类别管理</a></li>
+                <li><a href="/change">修改密码</a></li>
+            </ul>
+        </div>
+
+        <div class="col-sm-10 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <!-- Modal -->
+            <!--表格-->
+            <div class="content-wrapper">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="container mb50">
+                                <h2 style="text-align: center; color: rgb(239,129,41)">房间类别信息</h2>
+                            </div>
+                            <!--   Basic Table  -->
+                            <div class="panel panel-default" style="background: rgb(238,232,172)">
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th>房间类型</th>
+                                                <th>姓名</th>
+                                                <th>证件</th>
+                                                <th>证件号</th>
+                                                <th>性别</th>
+                                                <th>入住时间</th>
+                                                <th>离开时间</th>
+                                                <th>操作项</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="tbody"></tbody>
+                                        </table>
+                                    </div>
+                                    <div id="pagenavbox"></div>
+                                </div>
+                            </div>
+                            <div class="addType">
+                                <div>
+                                    <span class="col-md-2"><b>证件号：</b><input type="text" id="zhengjianhao" name="zhengjianhao"></span>
+                                </div>
+                                <div class="last">
+                                    <button id="add">查询</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--修改模态框-->
+            <div class="modal fade" id="myModalChange" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                                        class="sr-only">Close</span></button>
+                            <h4 class="modal-title">添写个人信息</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                房间号：
+                                <select id="roomnum" name="roomnum">
+
+                                </select>
+                            </p>
+                            <p>
+                                入住人姓名：
+                                <input class="form-control ruzhurenxingming" type="text"  name="ruzhurenxingming"/>
+                            </p>
+                            <p>
+                                价格：
+                                <input class="form-control jiage" type="text"  name="jiage"/>
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" id="xiugaiBtn">提交</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--弹出的修改课程对话框end-->
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/PageNav.js"></script>
+<script type="text/javascript">
+    //Ajax请求，请求JSON数据
+    $("#add").click(function () {
+        $("#tbody").empty();
+        var zhengjianhao = $("#zhengjianhao").val();
+        if (zhengjianhao == ""){
+            alert("证件号不能为空")
+        } else{
+            $.post("/chaxunruzhuxinxi/"+ zhengjianhao,function (data) {
+                console.log(data)
+                $.each(data.result ,function(i, n){
+                    $tr = $("<tr></tr>");
+                    $("<td></td>").html(n.type).appendTo($tr);
+                    $("<td></td>").html(n.xingming).appendTo($tr);
+                    $("<td></td>").html(n.zhengjianleixing).appendTo($tr);
+                    $("<td></td>").html(n.zhengjianhao).appendTo($tr);
+                    $("<td></td>").html(n.sex).appendTo($tr);
+                    $("<td></td>").html(n.startdate).appendTo($tr);
+                    $("<td></td>").html(n.enddate).appendTo($tr);
+                    $("<td><input type='button' id='btn3' class='btn btn-warning modbtn' value='入住' data-zheng='"+n.zhengjianhao+"' data-sid='" + n.type + "' data-toggle='modal'  data-target='#myModalChange'/></td>").html(n.handle).appendTo($tr);
+                    //上树
+                    $tr.appendTo($("#tbody"));
+                });
+            } )
+        }
+    })
+
+    $("#tbody").delegate("#btn3","click",function(){
+        var zhengjianhao = $("#zhengjianhao").val();
+        $.post("/chaxunruzhuxinxi/"+ zhengjianhao,function (data) {
+            console.log(data);
+            var leixing = data.result[0].type
+            console.log(leixing);
+            $.post("/chahao/"+leixing,function (data) {
+                console.log(data)
+                $.each(data.results,function(i, n){
+                    $("<option value='"+n.fangjianhao+"'></option>").html(n.fangjianhao).appendTo($('#roomnum'));
+                })
+            })
+            $("#xiugaiBtn").click(function () {
+                var fangjianhao = $("#roomnum").val();
+                var ruzhurenxingming = $(".ruzhurenxingming").val();
+                var jiage = $(".jiage").val()
+                console.log(data);
+                console.log(data.result[0].zhengjianleixing)
+                function getNowFormatDate() {
+                    var date = new Date();
+                    var seperator1 = "-";
+                    var seperator2 = ":";
+                    var month = date.getMonth() + 1;
+                    var strDate = date.getDate();
+                    if (month >= 1 && month <= 9) {
+                        month = "0" + month;
+                    }
+                    if (strDate >= 0 && strDate <= 9) {
+                        strDate = "0" + strDate;
+                    }
+                    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+                        + " " + date.getHours() + seperator2 + date.getMinutes()
+                        + seperator2 + date.getSeconds();
+                    return currentdate;
+                }
+                $.post("/ruzhuxinxi",{
+                    zhengjian:data.result[0].zhengjianleixing,
+                    zhengjianhao:data.result[0].zhengjianhao,
+                    xingming:data.result[0].xingming,
+                    xingbie:data.result[0].sex,
+                    leixing:data.result[0].type,
+                    roomnum:fangjianhao,
+                    price:jiage,
+                    names:ruzhurenxingming,
+                    shijian:getNowFormatDate()
+                },function (data) {
+                    if (data.result == 1) {
+                        window.location.href = "/check"
+                    }
+                })
+            })
+
+        })
+    })
+    $("#tuichu").click(function () {
+        $.get("/tui" ,function (data) {
+            console.log(data.resul);
+            if (data.resul == 1){
+                alert("退出成功");
+                window.location.href = "/"
+            } else{
+                alert("退出失败")
+            }
+        })
+    })
+</script>
+</body>
+</html>
